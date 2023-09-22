@@ -86,6 +86,7 @@ DB_PASSWORD = os.environ.get("POSTGRES_PASSWORD")
 DB_DATABASE = os.environ.get("POSTGRES_DB")
 DB_HOST = os.environ.get("POSTGRES_HOST")
 DB_PORT = os.environ.get("POSTGRES_PORT")
+
 DB_IS_AVAIL = all([
     DB_USERNAME,
     DB_PASSWORD,
