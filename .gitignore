@@ -1,5 +1,6 @@
 .env.prod
-
+web/.env
+venv/
 .DS_Store
 .kube/
 
