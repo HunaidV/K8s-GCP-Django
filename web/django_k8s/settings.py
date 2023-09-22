@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = str(os.environ.get('DEBUG')) == "1"
 
 ALLOWED_HOSTS = []
 
@@ -86,29 +86,23 @@ DB_PASSWORD = os.environ.get("POSTGRES_PASSWORD")
 DB_DATABASE = os.environ.get("POSTGRES_DB")
 DB_HOST = os.environ.get("POSTGRES_HOST")
 DB_PORT = os.environ.get("POSTGRES_PORT")
-
 DB_IS_AVAIL = all([
-        DB_USERNAME,
-        DB_PASSWORD,
-        DB_DATABASE,
-        DB_HOST,
-        DB_PORT
-
+    DB_USERNAME,
+    DB_PASSWORD,
+    DB_DATABASE,
+    DB_HOST,
+    DB_PORT
 ])
 
-POSTGRES_READY=str(os.environ.get('POSTGRES_READY')) == "1"
-
-
 if DB_IS_AVAIL:
-    DATABASES = { 
+    DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
             "NAME": DB_DATABASE,
             "USER": DB_USERNAME,
             "PASSWORD": DB_PASSWORD,
             "HOST": DB_HOST,
-            "PORT": DB_PORT
-
+            "PORT": DB_PORT,
         }
     }
 
