@@ -18,16 +18,19 @@ services:
   #     - staticfiles:/app/staticfiles/
       
   postgres_db:
-    image: postgres 
+    image: postgres
     restart: always
+    command: -p 5434
+
     env_file:
-      - web/.env
+      - web/.env    
     expose:
-      - 5433
-    ports:
-      - "5433:5433"
+      - 5434
+    ports: 
+      - "5434:5434"
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+  
   
   redis_db:
     image: redis
