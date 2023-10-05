@@ -43,3 +43,10 @@ kubectl create secret docker-registry artifact-registry \
 --docker-email=artifacts-k8s@production-api-enabill.iam.gserviceaccount.com \
 --docker-username=_json_key \
 --docker-password="$(cat KEY-FILE)"
+
+
+
+
+docker build -t us-central1-docker.pkg.dev/production-api-enabill/artifact-k8s/django-k8s .
+
+docker push us-central1-docker.pkg.dev/production-api-enabill/artifact-k8s/django-k8s:django-k8s
