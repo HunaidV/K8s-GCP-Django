@@ -47,6 +47,6 @@ kubectl create secret docker-registry artifact-registry \
 
 
 
-docker build -t us-central1-docker.pkg.dev/production-api-enabill/artifact-k8s/django-k8s .
+docker build -t us-central1-docker.pkg.dev/production-api-enabill/artifact-k8s/django-k8s:latest .
 
-docker push us-central1-docker.pkg.dev/production-api-enabill/artifact-k8s/django-k8s:django-k8s
+docker push us-central1-docker.pkg.dev/production-api-enabill/artifact-k8s/django-k8s --all-tags

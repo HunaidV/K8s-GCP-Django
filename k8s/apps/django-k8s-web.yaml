@@ -5,7 +5,7 @@ metadata:
   labels:
     app: djang-k8s-web-deployment
 spec:
-  replicas: 3
+  replicas: 5
   selector:
     matchLabels:
       app: djang-k8s-web-deployment
@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: django-k8s
-        image: us-central1-docker.pkg.dev/production-api-enabill/artifact-k8s/django-k8s:latest
+        image: us-central1-docker.pkg.dev/production-api-enabill/artifact-k8s/django-k8s:COMMIT_SHA
         envFrom:
           - secretRef:
               name: djang-k8s-web-prod-env
