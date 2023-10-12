@@ -1,38 +1,6 @@
 # Project concerning K8s, django and GCP
 
-Clone this repository
-```python
-git clone https://github.com/HunaidV/K8s-GCP-Django.git 
-```
-
-Install virtualenv in your system
-```python
-cd K8s-GCP-Django
-virtualenv -p python3 . 
-```
-
-Install requirements 
-
-```python
-pip install -r requirements.txt
-```
-
-For development purpose, you can use use docker-compose to run postgresql and map container with your local django server. More details can be found out in the docker-compose file
-```python
-docker compose build
-```
-
-For production use 
-1. Create a GCP account and run <code>gcloud auth login</code> to authenticate user. Make sure to have permissions on K8s, artifact registry and  cloud source repositories.
-
-2. Push this code to GCP cloud source repository 
-
-<link>https://cloud.google.com/source-repositories/docs/create-code-repository</link>
-
-
-To authenticate Docker login with gcp you can use multiple authentication. You can use one of the following methods depending on the use case. For this project we are using the service account with permissions to read/write ( 4. Service Account key authentication)
-
-https://cloud.google.com/artifact-registry/docs/docker/authentication
+To configure authentication with user credentials, run the following command:
 
 
 <h2>1. To configure authentication with service account credentials, run the following command</h2>
@@ -116,3 +84,5 @@ run the following gcloud command
 gcloud build submit 
 ```
 
+
+docker push us-central1-docker.pkg.dev/production-api-enabill/artifact-k8s/django-k8s --all-tags
