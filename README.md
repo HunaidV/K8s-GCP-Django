@@ -1,7 +1,11 @@
 # Project concerning K8s, django and GCP
 
 Clone this repository 
-<code>git clone https://github.com/HunaidV/K8s-GCP-Django.git </code>
+
+```python
+git clone https://github.com/HunaidV/K8s-GCP-Django.git 
+```
+
 To configure authentication with user credentials, run the following command:
 
 >gcloud auth login
