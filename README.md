@@ -53,6 +53,7 @@ gcloud auth print-access-token     --impersonate-service-account {SA-USER}@{PROJ
 Get a service account key and then base64 encode and run this command to login</h2>
 
 To put this in the pipeline, add the variable for the key in secrets.
+
 <code>cat newkey.json | docker login -u _json_key_base64 --password-stdin \
 https://us-central1-docker.pkg.dev </code>
 
@@ -60,9 +61,7 @@ https://us-central1-docker.pkg.dev </code>
 
 <h2>Create GKE Autopilot cluster and configure secret to use Artifact registry</h2>
 
-<code>
-gcloud container clusters create {Cluster_name}
-</code>
+```gcloud container clusters create {Cluster_name}```
 
 <h3>Create a secret to store artifact_registry as a registry which will later be used to pull the docker image.<h3>
 
