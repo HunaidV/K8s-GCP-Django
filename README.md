@@ -82,21 +82,18 @@ Every namespace in your Kubernetes cluster has a default service account called 
 
 Add the newly created imagePullSecret secret to your default service account:
 
-```
-imagePullSecrets:
-- name: artifact-registry
-Your service account should now look like this:
-```
+<code>imagePullSecrets:
+- name: artifact-registry</code>
+
+- Your service account should now look like this:
 
 <h3>Build and push the docker image to Artifact repository manually.</h3>
 
-<code>
-docker build -t us-central1-docker.pkg.dev/production-api-enabill/artifact-k8s/django-k8s:latest .
-</code>
 
-<code>
-docker push us-central1-docker.pkg.dev/production-api-enabill/artifact-k8s/django-k8s --all-tags
-</code>
+```docker build -t us-central1-docker.pkg.dev/production-api-enabill/artifact-k8s/django-k8s:latest .```
+
+```docker push us-central1-docker.pkg.dev/production-api-enabill/artifact-k8s/django-k8s --all-tags```
+
 
 
 <h2>Automate using GCP CloudBuild service</h2>
@@ -110,4 +107,3 @@ Run the following gcloud command
 
 
 ```gcloud build submit ```
-
