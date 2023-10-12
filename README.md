@@ -30,31 +30,28 @@ curl -fsSL "https://github.com/GoogleCloudPlatform/docker-credential-gcr/release
 
 
 <h2>3. Activate service account to authenticate with Artifact registry use this gcloud cli command. Also make sure this SA is having necessary permissions</h2>
-```python
+
 gcloud auth activate-service-account {SA-user}@{PROJECT_ID}.iam.gserviceaccount.com --key-file={key_name}.json
-```
+
 
 This uses token which expires in 1 hour.
-```python
+
 gcloud auth print-access-token     --impersonate-service-account {SA-USER}@{PROJECT_ID}.iam.gserviceaccount.com | docker login     -u oauth2accesstoken     --password-stdin https://{REGION}-docker.pkg.dev
-```
 
 
 <h2>4. Create dedicated service accounts that are only used to interact with repositories.
 Get a service account key and then base64 encode and run this command to login</h2>
 
 To put this in the pipeline, add the variable for the key in secrets.
-```python
 cat newkey.json | docker login -u _json_key_base64 --password-stdin \
 https://us-central1-docker.pkg.dev 
-```
+
 
 
 <h2>Create GKE Autopilot cluster and configure secret to use Artifact registry</h2>
 
-```python
 gcloud container clusters create {Cluster_name}
-```
+
 
 <h3>Create a secret to store artifact_registry as a registry which will later be used to pull the docker image.<h3>
 
