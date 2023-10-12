@@ -74,6 +74,20 @@ kubectl create secret docker-registry artifact-registry \
 --docker-password="$(cat KEY-FILE)"
 </code>
 
+Open your default service account:
+
+
+kubectl edit serviceaccount default --namespace default
+
+Every namespace in your Kubernetes cluster has a default service account called default. This default service account is used to pull your container image.
+
+Add the newly created imagePullSecret secret to your default service account:
+
+```
+imagePullSecrets:
+- name: artifact-registry
+Your service account should now look like this:
+```
 
 <h3>Build and push the docker image to Artifact repository manually.</h3>
 
