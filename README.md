@@ -63,7 +63,7 @@ https://us-central1-docker.pkg.dev </code>
 
 ```gcloud container clusters create {Cluster_name}```
 
-<h3>Create a secret to store artifact_registry as a registry which will later be used to pull the docker image.<h3>
+[^bignote]:Create a secret to store artifact_registry as a registry which will later be used to pull the docker image.
 
 <code>
 kubectl create secret docker-registry artifact-registry \
