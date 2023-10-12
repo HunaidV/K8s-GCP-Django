@@ -57,20 +57,25 @@ gcloud container clusters create {Cluster_name}
 ```
 
 <h3>Create a secret to store artifact_registry as a registry which will later be used to pull the docker image.<h3>
-```python
+
+<code>
 kubectl create secret docker-registry artifact-registry \
 --docker-server=https://{REGION}-docker.pkg.dev \
 --docker-email={SA_ID}@{PROJECT_ID}.iam.gserviceaccount.com \
 --docker-username=_json_key \
 --docker-password="$(cat KEY-FILE)"
+</code>
+
+
+<h3>Build and push the docker image to Artifact repository manually.</h3>
+
+```python
+docker build -t us-central1-docker.pkg.dev/production-api-enabill/artifact-k8s/django-k8s:latest .</code>
 ```
 
-
-Build and push the docker image to Artifact repository manually. 
-
-<code>docker build -t us-central1-docker.pkg.dev/production-api-enabill/artifact-k8s/django-k8s:latest .</code>
-
-<code>docker push us-central1-docker.pkg.dev/production-api-enabill/artifact-k8s/django-k8s --all-tags<code>
+```python
+docker push us-central1-docker.pkg.dev/production-api-enabill/artifact-k8s/django-k8s --all-tags
+```
 
 
 <h2>Automate using GCP CloudBuild service</h2>
