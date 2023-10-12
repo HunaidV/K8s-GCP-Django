@@ -63,15 +63,15 @@ https://us-central1-docker.pkg.dev </code>
 
 ```gcloud container clusters create {Cluster_name}```
 
-[^bignote]:Create a secret to store artifact_registry as a registry which will later be used to pull the docker image.
+Create a secret to store artifact_registry as a registry which will later be used to pull the docker image.
 
-<code>
+
 kubectl create secret docker-registry artifact-registry \
 --docker-server=https://{REGION}-docker.pkg.dev \
 --docker-email={SA_ID}@{PROJECT_ID}.iam.gserviceaccount.com \
 --docker-username=_json_key \
 --docker-password="$(cat KEY-FILE)"
-</code>
+
 
 Open your default service account:
 
@@ -108,7 +108,6 @@ docker push us-central1-docker.pkg.dev/production-api-enabill/artifact-k8s/djang
 
 Run the following gcloud command
 
-<code>
+```
 gcloud build submit 
-</code>
-
+```
