@@ -26,51 +26,54 @@ ARCH=amd64  # or "386" for 32-bit OSs
 curl -fsSL "https://github.com/GoogleCloudPlatform/docker-credential-gcr/releases/download/v${VERSION}/docker-credential-gcr_${OS}_${ARCH}-${VERSION}.tar.gz" \
 | tar xz docker-credential-gcr \
 && chmod +x docker-credential-gcr && sudo mv docker-credential-gcr /usr/bin/
-</code>
 
 
 <h2>3. Activate service account to authenticate with Artifact registry use this gcloud cli command. Also make sure this SA is having necessary permissions</h2>
 
+<code>
 gcloud auth activate-service-account {SA-user}@{PROJECT_ID}.iam.gserviceaccount.com --key-file={key_name}.json
-
+</code>
 
 This uses token which expires in 1 hour.
-
+<code>
 gcloud auth print-access-token     --impersonate-service-account {SA-USER}@{PROJECT_ID}.iam.gserviceaccount.com | docker login     -u oauth2accesstoken     --password-stdin https://{REGION}-docker.pkg.dev
-
+</code>
 
 <h2>4. Create dedicated service accounts that are only used to interact with repositories.
 Get a service account key and then base64 encode and run this command to login</h2>
 
 To put this in the pipeline, add the variable for the key in secrets.
-cat newkey.json | docker login -u _json_key_base64 --password-stdin \
-https://us-central1-docker.pkg.dev 
+<code>cat newkey.json | docker login -u _json_key_base64 --password-stdin \
+https://us-central1-docker.pkg.dev </code>
 
 
 
 <h2>Create GKE Autopilot cluster and configure secret to use Artifact registry</h2>
 
+<code>
 gcloud container clusters create {Cluster_name}
-
+</code>
 
 <h3>Create a secret to store artifact_registry as a registry which will later be used to pull the docker image.<h3>
 
+<code>
 kubectl create secret docker-registry artifact-registry \
 --docker-server=https://{REGION}-docker.pkg.dev \
 --docker-email={SA_ID}@{PROJECT_ID}.iam.gserviceaccount.com \
 --docker-username=_json_key \
 --docker-password="$(cat KEY-FILE)"
+</code>
 
 
 <h3>Build and push the docker image to Artifact repository manually.</h3>
 
-```python
+<code>
 docker build -t us-central1-docker.pkg.dev/production-api-enabill/artifact-k8s/django-k8s:latest .
-```
+</code>
 
-```python
+<code>
 docker push us-central1-docker.pkg.dev/production-api-enabill/artifact-k8s/django-k8s --all-tags
-```
+</code>
 
 
 <h2>Automate using GCP CloudBuild service</h2>
@@ -82,7 +85,7 @@ docker push us-central1-docker.pkg.dev/production-api-enabill/artifact-k8s/djang
 
 Run the following gcloud command
 
-```python 
+<code>
 gcloud build submit 
-```
+</code>
 
