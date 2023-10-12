@@ -1,5 +1,6 @@
 version: '3.9'
 services:
+#uncomment this to run django container out of the box
   # web:
   #   depends_on:
   #     - postgres_db

@@ -1,19 +1,56 @@
 # Project concerning K8s, django and GCP
 
-To configure authentication with user credentials, run the following command:
+Clone this repository
+```python
+git clone https://github.com/HunaidV/K8s-GCP-Django.git 
+```
 
->gcloud auth login
+Install virtualenv in your system
+```python
+cd K8s-GCP-Django
+virtualenv -p python3 . 
+```
 
-To configure authentication with service account credentials, run the following command:
+Install requirements 
 
+```python
+pip install -r requirements.txt
+```
+
+For development purpose, you can use use docker-compose to run postgresql and map container with your local django server. More details can be found out in the docker-compose file
+```python
+docker compose build
+```
+
+For production use 
+1. Create a GCP account and run <code>gcloud auth login</code> to authenticate user. Make sure to have permissions on K8s, artifact registry and  cloud source repositories.
+
+2. Push this code to GCP cloud source repository 
+
+<link>https://cloud.google.com/source-repositories/docs/create-code-repository</link>
+
+
+To authenticate Docker login with gcp you can use multiple authentication. You can use one of the following methods depending on the use case. For this project we are using the service account with permissions to read/write ( 4. Service Account key authentication)
+
+https://cloud.google.com/artifact-registry/docs/docker/authentication
+
+
+<h2>1. To configure authentication with service account credentials, run the following command</h2>
+
+```python
 gcloud auth activate-service-account SA-ID--key-file=KEY-FILE
+```
+
 This will create a config file in ~/.docker/config.json
 
+```python
 gcloud auth configure-docker HOSTNAME-LIST
-EG HOSTNAME-LIST https://us-central1-docker.pkg.dev
+```
+Eg. HOSTNAME-LIST https://{GCP-REGION}-docker.pkg.dev
 
-For a system where gcloud cli is not available use this command
+<h2>2. For a system where gcloud cli is not available use this command</h2>
 
+<code>
 VERSION=2.1.14
 OS=linux  # or "darwin" for OSX, "windows" for Windows.
 ARCH=amd64  # or "386" for 32-bit OSs
@@ -21,32 +58,61 @@ ARCH=amd64  # or "386" for 32-bit OSs
 curl -fsSL "https://github.com/GoogleCloudPlatform/docker-credential-gcr/releases/download/v${VERSION}/docker-credential-gcr_${OS}_${ARCH}-${VERSION}.tar.gz" \
 | tar xz docker-credential-gcr \
 && chmod +x docker-credential-gcr && sudo mv docker-credential-gcr /usr/bin/
+</code>
 
 
-gcloud auth activate-service-account artifacts-k8s@production-api-enabill.iam.gserviceaccount.com --key-file=serviceacountkey.json
+<h2>3. Activate service account to authenticate with Artifact registry use this gcloud cli command. Also make sure this SA is having necessary permissions</h2>
+```python
+gcloud auth activate-service-account {SA-user}@{PROJECT_ID}.iam.gserviceaccount.com --key-file={key_name}.json
+```
+
+This uses token which expires in 1 hour.
+```python
+gcloud auth print-access-token     --impersonate-service-account {SA-USER}@{PROJECT_ID}.iam.gserviceaccount.com | docker login     -u oauth2accesstoken     --password-stdin https://{REGION}-docker.pkg.dev
+```
 
 
-gcloud auth print-access-token     --impersonate-service-account artifacts-k8s@production-api-enabill.iam.gserviceaccount.com | docker login     -u oauth2accesstoken     --password-stdin https://us-central1-docker.pkg.dev
-
-
-Get a service account key and then base64 encode and run this command to login
+<h2>4. Create dedicated service accounts that are only used to interact with repositories.
+Get a service account key and then base64 encode and run this command to login</h2>
 
 To put this in the pipeline, add the variable for the key in secrets.
-
+```python
 cat newkey.json | docker login -u _json_key_base64 --password-stdin \
 https://us-central1-docker.pkg.dev 
+```
 
 
+<h1>Create GKE Autopilot cluster and configure secret to use Artifact registry>h1>
 
+```python
+gcloud container clusters create {Cluster_name}
+```
+
+<h3>Create a secret to store artifact_registry as a registry which will later be used to pull the docker image.<h3>
+```python
 kubectl create secret docker-registry artifact-registry \
---docker-server=https://us-central1-docker.pkg.dev \
---docker-email=artifacts-k8s@production-api-enabill.iam.gserviceaccount.com \
+--docker-server=https://{REGION}-docker.pkg.dev \
+--docker-email={SA_ID}@{PROJECT_ID}.iam.gserviceaccount.com \
 --docker-username=_json_key \
 --docker-password="$(cat KEY-FILE)"
+```
 
 
+Build and push the docker image to Artifact repository manually. 
+
+<code>docker build -t us-central1-docker.pkg.dev/production-api-enabill/artifact-k8s/django-k8s:latest .</code>
+
+<code>docker push us-central1-docker.pkg.dev/production-api-enabill/artifact-k8s/django-k8s --all-tags<code>
 
 
-docker build -t us-central1-docker.pkg.dev/production-api-enabill/artifact-k8s/django-k8s:latest .
+<h1>Automate using GCP CloudBuild service</h1>
+1. Clone the code from GCP repo
+2. Build container image
+3. Pushes the image to Artifact Registry
 
-docker push us-central1-docker.pkg.dev/production-api-enabill/artifact-k8s/django-k8s --all-tags
+run the following gcloud command
+
+```python 
+gcloud build submit 
+```
+
