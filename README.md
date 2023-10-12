@@ -50,7 +50,7 @@ https://us-central1-docker.pkg.dev
 ```
 
 
-<h1>Create GKE Autopilot cluster and configure secret to use Artifact registry</h1>
+<h2>Create GKE Autopilot cluster and configure secret to use Artifact registry</h2>
 
 ```python
 gcloud container clusters create {Cluster_name}
@@ -73,16 +73,16 @@ Build and push the docker image to Artifact repository manually.
 <code>docker push us-central1-docker.pkg.dev/production-api-enabill/artifact-k8s/django-k8s --all-tags<code>
 
 
-<h1>Automate using GCP CloudBuild service</h1>
+<h2>Automate using GCP CloudBuild service</h2>
+
+
 1. Clone the code from GCP repo
 2. Build container image
 3. Pushes the image to Artifact Registry
 
-run the following gcloud command
+Run the following gcloud command
 
 ```python 
 gcloud build submit 
 ```
 
-
-docker push us-central1-docker.pkg.dev/production-api-enabill/artifact-k8s/django-k8s --all-tags
