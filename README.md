@@ -82,10 +82,10 @@ Every namespace in your Kubernetes cluster has a default service account called 
 
 Add the newly created imagePullSecret secret to your default service account:
 
-<code>imagePullSecrets:
-- name: artifact-registry</code>
+imagePullSecrets:
+- name: artifact-registry
 
-- Your service account should now look like this:
+Your service account should now look like this:
 
 <h3>Build and push the docker image to Artifact repository manually.</h3>
 
