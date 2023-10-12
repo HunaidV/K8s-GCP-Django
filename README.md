@@ -108,6 +108,6 @@ docker push us-central1-docker.pkg.dev/production-api-enabill/artifact-k8s/djang
 
 Run the following gcloud command
 
-```
-gcloud build submit 
-```
+
+```gcloud build submit ```
+
