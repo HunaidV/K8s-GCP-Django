@@ -2,6 +2,16 @@
 
 To configure authentication with user credentials, run the following command:
 
+Build this project
+
+1. Git clone the repository
+2. Install virtualenv <code>virtualenv -p python3 .</code>
+3. Install django requirements <code>pip install -r requirements.txt</code>
+4. Add the env variable 
+5. For Production, we will use managed postgresql server so try to put the env variable separetely and add it to the kubernetes secrets using <code>kubectl create secret generic djang-k8s-web-prod-env --from-env-file=web/.env.prod
+6. Make sure to include .env.prod file in .gitignore and .dockerignore
+7. We will use Google cloud source repository to build CI/CD pipeline using Cloud build.
+8. Make sure to have permissions for your service account ( read/write access to artifact repository) and create key to authenticate with docker login and kubernetes deploy using gcloud command.
 
 <h2>1. To configure authentication with service account credentials, run the following command</h2>
 
