@@ -50,7 +50,7 @@ https://us-central1-docker.pkg.dev
 ```
 
 
-<h1>Create GKE Autopilot cluster and configure secret to use Artifact registry>h1>
+<h1>Create GKE Autopilot cluster and configure secret to use Artifact registry</h1>
 
 ```python
 gcloud container clusters create {Cluster_name}
