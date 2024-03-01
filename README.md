@@ -28,10 +28,10 @@ Eg. HOSTNAME-LIST https://{GCP-REGION}-docker.pkg.dev
 
 <h2>2. For a system where gcloud cli is not available use this command</h2>
 
-<code>
-VERSION=2.1.14
+
+<code>VERSION=2.1.14
 OS=linux  # or "darwin" for OSX, "windows" for Windows.
-ARCH=amd64  # or "386" for 32-bit OSs
+ARCH=amd64  # or "386" for 32-bit OSs</code>
 
 curl -fsSL "https://github.com/GoogleCloudPlatform/docker-credential-gcr/releases/download/v${VERSION}/docker-credential-gcr_${OS}_${ARCH}-${VERSION}.tar.gz" \
 | tar xz docker-credential-gcr \
@@ -40,13 +40,12 @@ curl -fsSL "https://github.com/GoogleCloudPlatform/docker-credential-gcr/release
 
 <h2>3. Activate service account to authenticate with Artifact registry use this gcloud cli command. Also make sure this SA is having necessary permissions</h2>
 
-<code>
-gcloud auth activate-service-account {SA-user}@{PROJECT_ID}.iam.gserviceaccount.com --key-file={key_name}.json
-</code>
+
+<code>gcloud auth activate-service-account {SA-user}@{PROJECT_ID}.iam.gserviceaccount.com --key-file={key_name}.json</code>
 
 This uses token which expires in 1 hour.
-<code>
-gcloud auth print-access-token     --impersonate-service-account {SA-USER}@{PROJECT_ID}.iam.gserviceaccount.com | docker login     -u oauth2accesstoken     --password-stdin https://{REGION}-docker.pkg.dev
+
+<code>gcloud auth print-access-token     --impersonate-service-account {SA-USER}@{PROJECT_ID}.iam.gserviceaccount.com | docker login     -u oauth2accesstoken     --password-stdin https://{REGION}-docker.pkg.dev
 </code>
 
 <h2>4. Create dedicated service accounts that are only used to interact with repositories.
@@ -60,14 +59,14 @@ https://us-central1-docker.pkg.dev </code>
 
 <h2>Create GKE Autopilot cluster and configure secret to use Artifact registry</h2>
 
-<code>
-gcloud container clusters create {Cluster_name}
+
+<code>gcloud container clusters create {Cluster_name}
 </code>
 
 <h3>Create a secret to store artifact_registry as a registry which will later be used to pull the docker image.<h3>
 
-<code>
-kubectl create secret docker-registry artifact-registry \
+
+<code>kubectl create secret docker-registry artifact-registry \
 --docker-server=https://{REGION}-docker.pkg.dev \
 --docker-email={SA_ID}@{PROJECT_ID}.iam.gserviceaccount.com \
 --docker-username=_json_key \
@@ -77,12 +76,12 @@ kubectl create secret docker-registry artifact-registry \
 
 <h3>Build and push the docker image to Artifact repository manually.</h3>
 
-<code>
-docker build -t us-central1-docker.pkg.dev/production-api-enabill/artifact-k8s/django-k8s:latest .
+
+<code>docker build -t us-central1-docker.pkg.dev/production-api-enabill/artifact-k8s/django-k8s:latest .
 </code>
 
-<code>
-docker push us-central1-docker.pkg.dev/production-api-enabill/artifact-k8s/django-k8s --all-tags
+
+<code>docker push us-central1-docker.pkg.dev/production-api-enabill/artifact-k8s/django-k8s --all-tags
 </code>
 
 
@@ -95,7 +94,7 @@ docker push us-central1-docker.pkg.dev/production-api-enabill/artifact-k8s/djang
 
 Run the following gcloud command
 
-<code>
-gcloud build submit 
-</code>
+
+<code>gcloud build submit </code>
+
 
