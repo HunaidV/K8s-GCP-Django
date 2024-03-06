@@ -1,22 +1,22 @@
 version: '3.9'
 services:
 #uncomment this to run django container out of the box
-  # web:
-  #   depends_on:
-  #     - postgres_db
-  #   build: 
-  #     context: ./web
-  #     dockerfile: Dockerfile
-  #   image: django_k8s:v2
-  #   environment:
-  #     - PORT=8020
-  #   env_file:
-  #     - web/.env
-  #   ports:
-  #     - "8001:8020"
-  #   command: sh -c "chmod +x migrate.sh && sh /app/migrate.sh && /app/entrypoint.sh"
-  #   volumes:
-  #     - staticfiles:/app/staticfiles/
+  web:
+    depends_on:
+      - postgres_db
+    build: 
+      context: ./web
+      dockerfile: Dockerfile
+    image: django_k8s:v2
+    environment:
+      - PORT=8020
+    env_file:
+      - web/.env
+    ports:
+      - "8001:8020"
+    command: sh -c "chmod +x migrate.sh && sh /app/migrate.sh && /app/entrypoint.sh"
+    volumes:
+      - staticfiles:/app/staticfiles/
       
   postgres_db:
     image: postgres

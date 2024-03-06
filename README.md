@@ -52,6 +52,7 @@ This uses token which expires in 1 hour.
 Get a service account key and then base64 encode and run this command to login</h2>
 
 To put this in the pipeline, add the variable for the key in secrets.
+
 <code>cat newkey.json | docker login -u _json_key_base64 --password-stdin \
 https://us-central1-docker.pkg.dev </code>
 
@@ -59,23 +60,47 @@ https://us-central1-docker.pkg.dev </code>
 
 <h2>Create GKE Autopilot cluster and configure secret to use Artifact registry</h2>
 
+<<<<<<< HEAD
 
 <code>gcloud container clusters create {Cluster_name}
 </code>
+=======
+```gcloud container clusters create {Cluster_name}```
 
-<h3>Create a secret to store artifact_registry as a registry which will later be used to pull the docker image.<h3>
+Create a secret to store artifact_registry as a registry which will later be used to pull the docker image.
+>>>>>>> develop
 
+
+<<<<<<< HEAD
 
 <code>kubectl create secret docker-registry artifact-registry \
+=======
+kubectl create secret docker-registry artifact-registry \
+>>>>>>> develop
 --docker-server=https://{REGION}-docker.pkg.dev \
 --docker-email={SA_ID}@{PROJECT_ID}.iam.gserviceaccount.com \
 --docker-username=_json_key \
 --docker-password="$(cat KEY-FILE)"
-</code>
 
+
+Open your default service account:
+
+
+kubectl edit serviceaccount default --namespace default
+
+Every namespace in your Kubernetes cluster has a default service account called default. This default service account is used to pull your container image.
+
+Add the newly created imagePullSecret secret to your default service account:
+
+```python
+ imagePullSecrets:
+ - name: artifact-registry
+```
+Your service account should now look like this:
 
 <h3>Build and push the docker image to Artifact repository manually.</h3>
 
+<<<<<<< HEAD
 
 <code>docker build -t us-central1-docker.pkg.dev/production-api-enabill/artifact-k8s/django-k8s:latest .
 </code>
@@ -83,6 +108,13 @@ https://us-central1-docker.pkg.dev </code>
 
 <code>docker push us-central1-docker.pkg.dev/production-api-enabill/artifact-k8s/django-k8s --all-tags
 </code>
+=======
+
+```docker build -t us-central1-docker.pkg.dev/production-api-enabill/artifact-k8s/django-k8s:latest .```
+
+```docker push us-central1-docker.pkg.dev/production-api-enabill/artifact-k8s/django-k8s --all-tags```
+
+>>>>>>> develop
 
 
 <h2>Automate using GCP CloudBuild service</h2>
@@ -92,9 +124,13 @@ https://us-central1-docker.pkg.dev </code>
 2. Build container image
 3. Pushes the image to Artifact Registry
 
-Run the following gcloud command
+Run the following gcloud command to deploy
 
+<<<<<<< HEAD
 
 <code>gcloud build submit </code>
 
+=======
+>>>>>>> develop
 
+```gcloud build submit ```
