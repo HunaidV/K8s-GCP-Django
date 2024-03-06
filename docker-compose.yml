@@ -15,8 +15,8 @@ services:
     ports:
       - "8001:8020"
     command: sh -c "chmod +x migrate.sh && sh /app/migrate.sh && /app/entrypoint.sh"
-    volumes:
-      - staticfiles:/app/staticfiles/
+    # volumes:
+    #   - staticfiles:/app/staticfiles/
       
   postgres_db:
     image: postgres
