@@ -104,7 +104,7 @@ Your service account should now look like this:
 2. Build container image
 3. Pushes the image to Artifact Registry
 
-Run the following gcloud command
+Run the following gcloud command to deploy
 
 
 ```gcloud build submit ```

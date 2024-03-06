@@ -22,7 +22,7 @@ steps:
   - |
     gcloud source repos clone django && \
     cd django && \
-    git checkout master && \
+    git checkout m  aster && \
     git config user.email $(gcloud auth list --filter=status:ACTIVE --format='value(account)')
 
 # # This step runs the unit tests on the app
