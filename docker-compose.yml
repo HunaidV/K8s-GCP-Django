@@ -13,7 +13,7 @@ services:
     env_file:
       - web/.env
     ports:
-      - "8001:8020"
+      - "80:8020"
     command: sh -c "chmod +x migrate.sh && sh /app/migrate.sh && /app/entrypoint.sh"
     # volumes:
     #   - staticfiles:/app/staticfiles/
